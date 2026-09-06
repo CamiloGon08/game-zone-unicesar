@@ -1,5 +1,9 @@
 package com.gamezone.persistence;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.List;
+
 import com.gamezone.model.Sale;
 
 public class SaleRepository {
@@ -17,5 +21,16 @@ public class SaleRepository {
         return sale.getId()+ "," + sale.getDate()+ ","
         + sale.getCustomer().getName()+ "," + sale.getSeller().getName()+
         "," +productNames+ "," +sale.getTotal();
+    }
+
+    public void save(List<Sale> sales){
+        try(BufferedWriter writer= new BufferedWriter(new FilerWriter(FILE_PATH))){
+            for(Sale sale : sales){
+                writer.write(toLine(sale));
+                writer.newLine();
+            }
+        }catch(IOException e){
+            System.out.println("Error saving sales: "+ e.getMessage());
+        }
     }
 }
