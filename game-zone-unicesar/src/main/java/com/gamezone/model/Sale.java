@@ -12,13 +12,21 @@ public class Sale {
     private List<Product> products;
     private double total;
 
-    public Sale(LocalDate date, String id, List<Product> products, Seller seller, Customer customer, double total) {
+    public Sale(LocalDate date, String id, List<Product> products, Seller seller, Customer customer) {
         this.date = date;
         this.id = id;
         this.products = products;
         this.seller = seller;
         this.customer = customer;
-        this.total = total;
+        this.total = calculateTotal();
+    }
+
+    private double calculateTotal(){
+        double sum=0;
+        for(Product product : products){
+            sum += product.getPrice();
+        }
+        return sum;
     }
 
     public String getId() {
@@ -59,22 +67,20 @@ public class Sale {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+        this.total = calculateTotal();
     }
 
     public double getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
-    }
 
     @Override 
     public String toString(){
         return "Sale : "+ id + " Date : "+ date + 
-        ",Customer : " + Customer.getNameC()+ 
-        ",Seller : "+ Seller.getNameS()+
-        ",Products : "+ products.size+ 
+        ",Customer : " + customer.getName()+ 
+        ",Seller : "+ seller.getName()+
+        ",Products : "+ products.size()+ 
         ", Total : $"+ String.format("%.2f",total);
     }
 
