@@ -23,6 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Handles file-based persistence for {@link Product} instances. This class
+ * is only responsible for reading and writing product data to disk; it
+ * contains no business rules, which belong to the service layer instead.
+ * Data is stored as plain text, one product per line, prefixed by a
+ * discriminator that identifies whether the line represents a video game
+ * or a console.
+ */
 public class ProductRepository {
 
     private static final String VIDEOGAME_TYPE = "VIDEOGAME";
@@ -30,12 +38,21 @@ public class ProductRepository {
 
     private final String filePath;
 
-   
+    /**
+     * Creates a repository backed by the given file path.
+     *
+     * @param filePath path of the file used to persist products
+     */
     public ProductRepository(String filePath) {
         this.filePath = filePath;
     }
 
-   
+    /**
+     * Saves the given list of products to the backing file, overwriting any
+     * previous content.
+     *
+     * @param products the products to persist
+     */
     public void saveAll(List<Product> products) {
         try (FileWriter writer = new FileWriter(filePath)) {
             for (Product product : products) {
@@ -47,7 +64,12 @@ public class ProductRepository {
         }
     }
 
-    
+    /**
+     * Loads all products previously stored in the backing file.
+     *
+     * @return the list of products found in the file, or an empty list if
+     *         the file does not exist yet
+     */
     public List<Product> loadAll() {
         List<Product> products = new ArrayList<>();
         if (!Files.exists(Paths.get(filePath))) {
@@ -66,7 +88,13 @@ public class ProductRepository {
         return products;
     }
 
-    
+    /**
+     * Serializes a single product into its plain-text line representation,
+     * choosing the discriminator based on its concrete type.
+     *
+     * @param product the product to serialize
+     * @return the serialized line
+     */
     private String toLine(Product product) {
         if (product instanceof VideoGame) {
             VideoGame videoGame = (VideoGame) product;
@@ -82,7 +110,13 @@ public class ProductRepository {
         throw new IllegalArgumentException("Unsupported product type: " + product.getClass());
     }
 
-    
+    /**
+     * Deserializes a single plain-text line back into a {@link Product},
+     * choosing the concrete subclass based on its discriminator.
+     *
+     * @param line the line to deserialize
+     * @return the reconstructed product
+     */
     private Product fromLine(String line) {
         String[] fields = line.split(",", -1);
         for (int i = 0; i < fields.length; i++) {
