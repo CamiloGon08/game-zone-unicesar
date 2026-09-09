@@ -2,17 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.game.zone.unicesar.service;
+package com.gamezone.service;
 
-/**
- *
- * @author jxsxs
- */
-
-import com.mycompany.game.zone.unicesar.model.Console;
-import com.mycompany.game.zone.unicesar.model.Product;
-import com.mycompany.game.zone.unicesar.model.VideoGame;
-import com.mycompany.game.zone.unicesar.persistence.ProductRepository;
+import com.gamezone.model.Console;
+import com.gamezone.model.Product;
+import com.gamezone.model.VideoGame;
+import com.gamezone.persistence.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
