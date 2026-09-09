@@ -1,3 +1,6 @@
+# Layer Dependency Diagram — GameZone Unicesar
+
+```mermaid
 flowchart TD
     UI["ui"]
     SERVICE["service"]
@@ -8,3 +11,4 @@ flowchart TD
     SERVICE --> PERSISTENCE
     SERVICE --> MODEL
     PERSISTENCE --> MODEL
+```
