@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.mycompany.game.zone.unicesar.model;
+package com.gamezone.model;
 
-/**
- *
- * @author jxsxs
- */
 
 
 /**
@@ -40,56 +32,32 @@ public class Console extends Product {
         this.generation = generation;
     }
 
-    /**
-     * Builds a description that integrates the common product attributes
-     * with the console's particular characteristics.
-     *
-     * @return a human-readable description of the console
-     */
     @Override
     public String getDescription() {
         return String.format("%s [Console] - Brand: %s, Model: %s, Generation: %s, Price: %.2f, Stock: %d",
                 getTitle(), brand, model, generation, getPrice(), getStock());
     }
 
-    /**
-     * @return the manufacturer brand of the console
-     */
     public String getBrand() {
         return brand;
     }
 
-    /**
-     * @param brand the new manufacturer brand of the console
-     */
     public void setBrand(String brand) {
         this.brand = brand;
     }
 
-    /**
-     * @return the specific model name of the console
-     */
     public String getModel() {
         return model;
     }
 
-    /**
-     * @param model the new specific model name of the console
-     */
     public void setModel(String model) {
         this.model = model;
     }
 
-    /**
-     * @return the hardware generation of the console
-     */
     public String getGeneration() {
         return generation;
     }
 
-    /**
-     * @param generation the new hardware generation of the console
-     */
     public void setGeneration(String generation) {
         this.generation = generation;
     }
