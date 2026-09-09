@@ -114,5 +114,7 @@ public abstract class Product {
      * @param amount the quantity to add to the current stock; negative
      *               values decrease it
      */
-   
+    public void adjustStock(int amount) {
+        this.stock += amount;
+    }
 }
