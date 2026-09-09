@@ -1,10 +1,7 @@
+```mermaid
 flowchart TD
-    UI["ui"]
-    SERVICE["service"]
-    PERSISTENCE["persistence"]
-    MODEL["model"]
-
-    UI --> SERVICE
-    SERVICE --> PERSISTENCE
-    SERVICE --> MODEL
+    UI["ui"] --> SERVICE["service"]
+    SERVICE --> PERSISTENCE["persistence"]
+    SERVICE --> MODEL["model"]
     PERSISTENCE --> MODEL
+```
