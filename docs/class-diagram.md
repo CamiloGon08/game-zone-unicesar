@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     %% ===== MODEL LAYER =====
     class Person {
@@ -77,7 +78,7 @@ classDiagram
         -date: LocalDate
         -seller: Seller
         -customer: Client
-        -products: List~Product~
+        -products: List_Product_
         -total: double
         +getId() String
         +setId(id String) void
@@ -87,8 +88,8 @@ classDiagram
         +setSeller(seller Seller) void
         +getCustomer() Client
         +setCustomer(customer Client) void
-        +getProducts() List~Product~
-        +setProducts(products List~Product~) void
+        +getProducts() List_Product_
+        +setProducts(products List_Product_) void
         +getTotal() double
         +toString() String
         -calculateTotal() double
@@ -98,7 +99,7 @@ classDiagram
         -String id
         -LocalDate returnDate
         -Sale originalSale
-        -List~Product~ returnedProducts
+        -List_Product_ returnedProducts
         -String reason
         -double refundAmount
         +calculateRefundAmount() double
@@ -120,8 +121,8 @@ classDiagram
     class ProductRepository {
         -filePath: String
         +ProductRepository(filePath String)
-        +saveAll(products List~Product~) void
-        +loadAll() List~Product~
+        +saveAll(products List_Product_) void
+        +loadAll() List_Product_
         -toLine(product Product) String
         -fromLine(line String) Product
     }
@@ -129,24 +130,24 @@ classDiagram
     class PersonRepository {
         -CLIENTS_FILE: String
         -SELLERS_FILE: String
-        +saveClients(clients List~Client~) void
-        +loadClients() List~Client~
-        +saveSellers(sellers List~Seller~) void
-        +loadSellers() List~Seller~
+        +saveClients(clients List_Client_) void
+        +loadClients() List_Client_
+        +saveSellers(sellers List_Seller_) void
+        +loadSellers() List_Seller_
     }
 
     class SaleRepository {
         -FILE_PATH: String
-        +save(sales List~Sale~) void
-        +load() List~Sale~
+        +save(sales List_Sale_) void
+        +load() List_Sale_
         -toLine(sale Sale) String
     }
 
     class ReturnRepository {
         -SaleService saleService
         -ProductService productService
-        +saveAll(returns List~Return~) void
-        +loadAll() List~Return~
+        +saveAll(returns List_Return_) void
+        +loadAll() List_Return_
     }
 
     ProductRepository ..> Product
@@ -162,45 +163,45 @@ classDiagram
     %% ===== SERVICE LAYER =====
     class ProductService {
         -productRepository: ProductRepository
-        -products: List~Product~
+        -products: List_Product_
         +ProductService(repository ProductRepository)
         +registerVideoGame(id String, title String, price double, stock int, platform String, genre String, ageRating String) void
         +registerConsole(id String, title String, price double, stock int, brand String, model String, generation String) void
-        +listProducts() List~Product~
-        +findById(id String) Optional~Product~
+        +listProducts() List_Product_
+        +findById(id String) Optional_Product_
         +hasSufficientStock(id String, quantity int) boolean
         +updateStock(id String, amount int) void
         -addProduct(product Product) void
     }
 
     class PersonService {
-        -clients: List~Client~
-        -sellers: List~Seller~
+        -clients: List_Client_
+        -sellers: List_Seller_
         -repository: PersonRepository
         +PersonService() 
         +registerClient(client Client) void
-        +listClients() List~Client~
-        +listSellers() List~Seller~
+        +listClients() List_Client_
+        +listSellers() List_Seller_
     }
 
     class SaleService {
         -repository: SaleRepository
-        -sales: List~Sale~
+        -sales: List_Sale_
         +SaleService(repository SaleRepository)
-        +registerSale(customer Client, seller Seller, products List~Product~) Sale
-        +viewAllSales() List~Sale~
-        +viewSalesByCustomer(customer Client) List~Sale~
-        +viewSalesBySeller(seller Seller) List~Sale~
+        +registerSale(customer Client, seller Seller, products List_Product_) Sale
+        +viewAllSales() List_Sale_
+        +viewSalesByCustomer(customer Client) List_Sale_
+        +viewSalesBySeller(seller Seller) List_Sale_
     }
 
     class ReturnService {
         -returnRepository: ReturnRepository
         -saleService: SaleService
         -productService: ProductService
-        +registerReturn(String, List~String~, String) Return
-        +viewAllReturns() List~Return~
-        +viewReturnsByCustomer(String) List~Return~
-        +viewReturnsBySale(String) List~Return~
+        +registerReturn(String, List_String_, String) Return
+        +viewAllReturns() List_Return_
+        +viewReturnsByCustomer(String) List_Return_
+        +viewReturnsBySale(String) List_Return_
         +generateMonthlyBalance(int, int) double
     }
 
@@ -251,7 +252,7 @@ classDiagram
 
     %% ===== ENTRY POINT =====
     class Main {
-        +main(args String[]) void$
+        +main(String[] args) void\$
     }
 
     Main ..> ConsoleMenu
@@ -263,3 +264,4 @@ classDiagram
     Main ..> PersonService
     Main ..> SaleService
     Main ..> ReturnService
+```
