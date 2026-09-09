@@ -1,28 +1,24 @@
+```mermaid
 classDiagram
     class Person {
-    ...
+        <<abstract>>
     }
     class Client {
-    <<concrete>>
     }
     class Seller {
-    <<concrete>>
     }
     class Product {
-    <<abstract>>
+        <<abstract>>
     }
     class VideoGame {
-    <<concrete>>
     }
     class Console {
-    <<concrete>>
     }
     class Sale {
-    <<concrete>>
     }
-Person <|-- Client
-Person <|-- Seller
-Product <|-- VideoGame
-Product <|-- Console
-Person <|-- Seller : s1
-Product <|-- Console : s2
+
+    Person <|-- Client
+    Person <|-- Seller : s1
+    Product <|-- VideoGame
+    Product <|-- Console : s2
+```
