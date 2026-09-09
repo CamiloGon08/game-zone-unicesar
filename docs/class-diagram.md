@@ -12,11 +12,13 @@ classDiagram
         +getPhone() String
         +setPhone(phone String) void
     }
+
     class Client {
         -email: String
         +getEmail() String
         +setEmail(email String) void
     }
+
     class Seller {
         -employeeCode: String
         -shift: String
@@ -25,6 +27,7 @@ classDiagram
         +getShift() String
         +setShift(shift String) void
     }
+
     class Product {
         <<abstract>>
         -id: String
@@ -42,6 +45,7 @@ classDiagram
         +adjustStock(amount int) void
         +getDescription() String*
     }
+
     class VideoGame {
         -platform: String
         -genre: String
@@ -54,6 +58,7 @@ classDiagram
         +getAgeRating() String
         +setAgeRating(rating String) void
     }
+
     class Console {
         -brand: String
         -model: String
@@ -66,6 +71,7 @@ classDiagram
         +getGeneration() String
         +setGeneration(gen String) void
     }
+
     class Sale {
         -id: String
         -date: LocalDate
@@ -88,13 +94,27 @@ classDiagram
         -calculateTotal() double
     }
 
+    class Return {
+        -String id
+        -LocalDate returnDate
+        -Sale originalSale
+        -List~Product~ returnedProducts
+        -String reason
+        -double refundAmount
+        +calculateRefundAmount() double
+        +generateReturnReceipt() String
+    }
+
     Person <|-- Client
     Person <|-- Seller
     Product <|-- VideoGame
     Product <|-- Console
+
     Sale "1" --> "1" Client
     Sale "1" --> "1" Seller
     Sale "1" o-- "1..*" Product
+    Return "many" --> "1" Sale : references
+    Return "1" --> "0..*" Product : returns
 
     %% ===== PERSISTENCE LAYER =====
     class ProductRepository {
@@ -105,6 +125,7 @@ classDiagram
         -toLine(product Product) String
         -fromLine(line String) Product
     }
+
     class PersonRepository {
         -CLIENTS_FILE: String
         -SELLERS_FILE: String
@@ -113,11 +134,19 @@ classDiagram
         +saveSellers(sellers List~Seller~) void
         +loadSellers() List~Seller~
     }
+
     class SaleRepository {
         -FILE_PATH: String
         +save(sales List~Sale~) void
         +load() List~Sale~
         -toLine(sale Sale) String
+    }
+
+    class ReturnRepository {
+        -SaleService saleService
+        -ProductService productService
+        +saveAll(returns List~Return~) void
+        +loadAll() List~Return~
     }
 
     ProductRepository ..> Product
@@ -126,6 +155,9 @@ classDiagram
     SaleRepository ..> Sale
     SaleRepository ..> ProductService
     SaleRepository ..> PersonService
+    ReturnRepository ..> Return
+    ReturnRepository ..> SaleService
+    ReturnRepository ..> ProductService
 
     %% ===== SERVICE LAYER =====
     class ProductService {
@@ -140,15 +172,17 @@ classDiagram
         +updateStock(id String, amount int) void
         -addProduct(product Product) void
     }
+
     class PersonService {
         -clients: List~Client~
         -sellers: List~Seller~
         -repository: PersonRepository
-        +PersonService()
+        +PersonService() 
         +registerClient(client Client) void
         +listClients() List~Client~
         +listSellers() List~Seller~
     }
+
     class SaleService {
         -repository: SaleRepository
         -sales: List~Sale~
@@ -159,6 +193,17 @@ classDiagram
         +viewSalesBySeller(seller Seller) List~Sale~
     }
 
+    class ReturnService {
+        -returnRepository: ReturnRepository
+        -saleService: SaleService
+        -productService: ProductService
+        +registerReturn(String, List~String~, String) Return
+        +viewAllReturns() List~Return~
+        +viewReturnsByCustomer(String) List~Return~
+        +viewReturnsBySale(String) List~Return~
+        +generateMonthlyBalance(int, int) double
+    }
+
     ProductService "1" --> "1" ProductRepository
     ProductService ..> Product
     PersonService "1" --> "1" PersonRepository
@@ -166,13 +211,19 @@ classDiagram
     SaleService "1" --> "1" ProductService
     SaleService ..> Sale
 
+    ReturnService --> ReturnRepository : uses
+    ReturnService --> SaleService : uses
+    ReturnService --> ProductService : uses
+    ReturnService ..> Return
+
     %% ===== UI LAYER =====
     class ConsoleMenu {
         -scanner: Scanner
         -productService: ProductService
         -personService: PersonService
         -saleService: SaleService
-        +ConsoleMenu(productService ProductService, personService PersonService, saleService SaleService)
+        -returnService: ReturnService
+        +ConsoleMenu(productService ProductService, personService PersonService, saleService SaleService, returnService ReturnService)
         +start() void
         -printMainMenu() void
         -registerVideoGame() void
@@ -185,12 +236,18 @@ classDiagram
         -viewAllSales() void
         -viewSalesByCustomer() void
         -viewSalesBySeller() void
+        -registerReturn() void
+        -viewAllReturns() void
+        -viewReturnsByCustomer() void
+        -viewReturnsBySale() void
+        -generateMonthlyBalance() void
         -readInt() int
     }
 
     ConsoleMenu "1" --> "1" ProductService
     ConsoleMenu "1" --> "1" PersonService
     ConsoleMenu "1" --> "1" SaleService
+    ConsoleMenu "1" --> "1" ReturnService
 
     %% ===== ENTRY POINT =====
     class Main {
@@ -201,6 +258,8 @@ classDiagram
     Main ..> ProductRepository
     Main ..> PersonRepository
     Main ..> SaleRepository
+    Main ..> ReturnRepository
     Main ..> ProductService
     Main ..> PersonService
     Main ..> SaleService
+    Main ..> ReturnService
