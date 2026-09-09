@@ -58,4 +58,44 @@ public class ConsoleMenu {
         System.out.println("0. Exit");
         System.out.print("Choose an option: ");
     }
+
+        private void registerVideoGame() {
+        System.out.print("ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Title: ");
+        String title = scanner.nextLine();
+        System.out.print("Price: ");
+        double price = Double.parseDouble(scanner.nextLine());
+        System.out.print("Stock: ");
+        int stock = Integer.parseInt(scanner.nextLine());
+        System.out.print("Platform: ");
+        String platform = scanner.nextLine();
+        System.out.print("Genre: ");
+        String genre = scanner.nextLine();
+        System.out.print("Age rating: ");
+        String ageRating = scanner.nextLine();
+
+        productService.registerVideoGame(id, title, price, stock, platform, genre, ageRating);
+        System.out.println("Video game registered successfully.");
+    }
+
+    private void registerConsole() {
+        System.out.print("ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Title: ");
+        String title = scanner.nextLine();
+        System.out.print("Price: ");
+        double price = Double.parseDouble(scanner.nextLine());
+        System.out.print("Stock: ");
+        int stock = Integer.parseInt(scanner.nextLine());
+        System.out.print("Brand: ");
+        String brand = scanner.nextLine();
+        System.out.print("Model: ");
+        String model = scanner.nextLine();
+        System.out.print("Generation: ");
+        String generation = scanner.nextLine();
+
+        productService.registerConsole(id, title, price, stock, brand, model, generation);
+        System.out.println("Console registered successfully.");
+    }
 }
