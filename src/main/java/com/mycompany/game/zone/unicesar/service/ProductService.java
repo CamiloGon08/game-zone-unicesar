@@ -133,13 +133,10 @@ public class ProductService {
      *               values decrease it
      * @throws IllegalArgumentException if the product does not exist
      */
-    public void updateStock(String id, int quantity) {
+    public void updateStock(String id, int amount) {
     Product product = findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Product not found: " + id));
-    if (product.getStock() < quantity) {
-        throw new IllegalArgumentException("Insufficient stock for product: " + id);
-    }
-    product.setStock(product.getStock() - quantity);   // ← el ProductService hace la resta
+    product.adjustStock(amount);   // ← le delega el cálculo al propio objeto Product
     productRepository.saveAll(products);
 }
 }
