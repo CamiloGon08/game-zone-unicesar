@@ -1,6 +1,7 @@
 package com.gamezone.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gamezone.model.Client;
@@ -19,7 +20,7 @@ public class SaleService {
         this.sales = repository.load();
     }
     
-   public Sale registerSale(Client customer, Seller seller, List<Product> products) {
+    public Sale registerSale(Client customer, Seller seller, List<Product> products) {
         if (products == null || products.isEmpty()) {
             throw new IllegalArgumentException("A sale must contain at least one product.");
         }
@@ -44,6 +45,30 @@ public class SaleService {
         repository.save(sales);
 
         return sale;
+    }
+
+    public List<Sale> viewAllSales() {
+        return sales;
+    }
+
+    public List<Sale> viewSalesByCustomer(Client customer) {
+        List<Sale> result = new ArrayList<>();
+        for (Sale sale : sales) {
+            if (sale.getCustomer().equals(customer)) {
+                result.add(sale);
+            }
+        }
+        return result;
+    }
+
+    public List<Sale> viewSalesBySeller(Seller seller) {
+        List<Sale> result = new ArrayList<>();
+        for (Sale sale : sales) {
+            if (sale.getSeller().equals(seller)) {
+                result.add(sale);
+            }
+        }
+        return result;
     }
 
 
