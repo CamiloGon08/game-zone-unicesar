@@ -8,11 +8,11 @@ public class Sale {
     private String id;
     private LocalDate date;
     private Seller seller;
-    private Customer customer;
+    private Client customer;
     private List<Product> products;
     private double total;
 
-    public Sale(LocalDate date, String id, List<Product> products, Seller seller, Customer customer) {
+    public Sale(LocalDate date, String id, List<Product> products, Seller seller, Client customer) {
         this.date = date;
         this.id = id;
         this.products = products;
@@ -53,11 +53,11 @@ public class Sale {
         this.seller = seller;
     }
 
-    public Customer getCustomer(){
+    public Client getCustomer(){
         return customer;
     }
 
-    public void setCustomer(Customer customer){
+    public void setCustomer(Client customer){
         this.customer = customer;
     }
 
